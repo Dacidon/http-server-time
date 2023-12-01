@@ -8,6 +8,9 @@ app.set('port', port);
 
 const argv = process.argv.slice(2);
 
+// Первый аргумент в консоли - интервал отправки времени
+// Второй аргумент - лимит отправляемых сообщений
+
 const delay = argv[0];
 const limit = argv[1];
 
@@ -15,7 +18,7 @@ let connections = [];
 
 const server = http.createServer(app);
 
-app.get('/', (req, res, next) => {
+app.get('/', (req, res) => {
   connections.push(res);
 });
 
@@ -24,13 +27,13 @@ setTimeout(function run () {
   if (++tick > limit) {
     connections.map((res) => {
       res.write('END\n');
-      res.end();
+      return res.end();
     });
     connections = [];
     tick = 0;
   }
   connections.map((res, i) => {
-    res.write(`${i} Tick: ${tick}.\n`);
+    return res.write(`${new Date()}\n`);
   });
   setTimeout(run, delay);
 }, delay);
