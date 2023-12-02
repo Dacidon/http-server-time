@@ -6,13 +6,13 @@ const port = 8080;
 
 app.set('port', port);
 
-const argv = process.argv.slice(2);
+// Первая переменная окружения в консоли - интервал отправки времени
+// Вторая переменная - лимит отправляемых сообщений
 
-// Первый аргумент в консоли - интервал отправки времени
-// Второй аргумент - лимит отправляемых сообщений
-
-const delay = argv[0];
-const limit = argv[1];
+const delay = process.env.DELAY;
+const limit = process.env.LIMIT;
+console.log(`Delay: ${delay}`);
+console.log(`Limit: ${limit}`);
 
 let connections = [];
 
